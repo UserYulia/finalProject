@@ -6,10 +6,10 @@ import java.util.Properties;
 import java.util.concurrent.Executor;
 
 
-public class ProxyConnection implements Connection{
+public class ConnectionWrapper implements AutoCloseable {
     private Connection connection;
 
-   ProxyConnection(Connection connection) {
+   ConnectionWrapper(Connection connection) {
         this.connection = connection;
     }
 

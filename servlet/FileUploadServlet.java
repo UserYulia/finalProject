@@ -45,7 +45,7 @@ public class FileUploadServlet extends HttpServlet {
                 }
                 HttpSession session = request.getSession(true);
                 User user = (User)session.getAttribute("user");
-                if(!path.isEmpty()) {
+                if(!path.isEmpty()&&!(user.getPhoto().equals("images"+File.separator+"photos"+File.separator+"default.jpg"))) {
                     File file = new File(getServletContext().getRealPath("/") + user.getPhoto());
                     file.delete();
                     user.setPhoto(path);

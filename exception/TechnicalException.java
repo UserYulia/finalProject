@@ -1,8 +1,5 @@
 package by.galkina.game.exception;
 
-/**
- * Created by Yulia on 28.02.2017.
- */
 public class TechnicalException extends Exception {
     public TechnicalException() {
     }

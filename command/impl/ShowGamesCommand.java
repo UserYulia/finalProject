@@ -14,6 +14,7 @@ import java.util.List;
 
 
 public class ShowGamesCommand implements Command {
+    private static final String GAMES = "games";
     private static final Logger LOG = Logger.getLogger(ShowGamesCommand.class);
     @Override
     public String execute(HttpServletRequest request) {
@@ -22,7 +23,7 @@ public class ShowGamesCommand implements Command {
         try {
             HttpSession session = request.getSession(true);
             games = new GameDao().findByUser((User)session.getAttribute("user"));
-            request.setAttribute("games", games);
+            request.setAttribute(GAMES, games);
             page = ConfigurationManager.getInstance().getProperty(ConfigurationManager.USER_OFFICE_PAGE_PATH);
         } catch (DAOException e) {
             LOG.fatal("DaoException!");

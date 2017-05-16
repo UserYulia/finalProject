@@ -12,15 +12,16 @@ import java.util.List;
 
 public class FindNewsCommand implements Command {
     private static final String LANG = "lang";
+    private static final String NEWS = "news";
     @Override
     public String execute(HttpServletRequest request) {
         String page="";
-        List<News> news = null;
+        List<News> news;
         HttpSession session = request.getSession();
         String lang = (String) session.getAttribute(LANG);
         try {
             news = new FindNewsLogic().find(lang);
-            request.setAttribute("list", news);
+            request.setAttribute(NEWS, news);
             page = ConfigurationManager.getInstance().getProperty(ConfigurationManager.NEWS_PAGE_PATH);
         }catch (LogicException e) {
             e.printStackTrace();

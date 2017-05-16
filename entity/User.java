@@ -2,6 +2,7 @@ package by.galkina.game.entity;
 
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class User {
     private long userId;
@@ -13,6 +14,8 @@ public class User {
     private boolean ban;
     private Double rating;
     private String photo;
+    private Date birthday;
+    private Gender gender;
 
     public User() {
     }
@@ -46,6 +49,22 @@ public class User {
 
     public void setId(long userId) {
         this.userId = userId;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 
     public String getEmail() {

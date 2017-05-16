@@ -29,13 +29,16 @@ public enum MessageManager {
     public static final String SUCCESS_CHANGE_PERSONAL_DATA = "change.personal-data";
     public static final String SUCCESS_RESTORE_PASSWORD = "restore.password";
     public static final String PASSWORDS_NOT_EQUALS = "passwords.not.equals";
+    public static final String INCORRECT_SUM = "incorrect.sum";
+    public static final String NOT_ENOUGH_MONEY_MESSAGE = "not.enough.money.message";
+    public static final String MESSAGE_WASNT_SENT = "message.wasnt.sent";
 
     MessageManager(ResourceBundle resourceBundle) {
         this.resourceBundle = resourceBundle;
     }
 
     public static MessageManager getManagerByLocale(String locale) {
-        MessageManager messageManager = null;
+        MessageManager messageManager;
         if (locale != null) {
             switch (locale.trim()) {
                 case EN_LOCALE:

@@ -9,6 +9,7 @@ import org.json.simple.parser.ParseException;
 public class JSONUtil {
     /** Field COMMAND  */
     private static final String COMMAND = "command";
+    private static final String SUM = "sum";
 
     /** Field UPDATE  */
     private static final String UPDATE = "update";
@@ -77,11 +78,8 @@ public class JSONUtil {
         return ((String)json.get(TEXT)).trim();
     }
 
-    /**
-     * Method jsonToSum ...
-     *
-     * @param json of type JSONObject
-     * @return String
-     */
+    public static String jsonToSum(JSONObject json) {
+        return ((String) json.get(SUM)).trim();
+    }
 
 }

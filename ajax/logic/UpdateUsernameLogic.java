@@ -9,19 +9,16 @@ import by.galkina.game.exception.TechnicalException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
-public class SetBanLogic {
-    private static final String BAN = "ban";
-    private static final String EMAIL = "email";
-
-    public static void set(String data) throws LogicException, TechnicalException {
+public class UpdateUsernameLogic {
+    private static final String USERNAME = "username";
+    public static void update(User user, String data, String lang) throws LogicException, TechnicalException {
         try {
             JSONObject json = JSONUtil.stringToJson(data);
-            boolean ban = Boolean.parseBoolean(((String) json.get(BAN)).trim());
-            String email = ((String) json.get(EMAIL)).trim();
+            String username =((String) json.get(USERNAME)).trim();
+            String email = user.getEmail();
             UserDao dao = new UserDao();
-            User user = dao.findByEmail(email);
-            user.setBan(ban);
-            dao.changeBan(email, ban);
+            user.setUsername(username);
+            dao.changeUsername(email, username);
         } catch (ParseException e) {
             throw new LogicException();
         } catch (DAOException e) {

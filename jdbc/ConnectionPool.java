@@ -19,7 +19,7 @@ public class ConnectionPool {
     private static ConnectionPool instance;
     private static AtomicBoolean isCreated = new AtomicBoolean();
     private static Lock lock = new ReentrantLock();
-    private BlockingQueue<ProxyConnection> connections;
+    private BlockingQueue<ConnectionWrapper> connections;
     private String url;
     private String email;
     private String password;
@@ -63,7 +63,7 @@ public class ConnectionPool {
         return instance;
     }
 
-    private ProxyConnection getConnection() throws ConnectionPoolException {
+    private ConnectionWrapper getConnection() throws ConnectionPoolException {
         Connection connection;
         try {
             connection = DriverManager.getConnection(url, email, password);
@@ -71,11 +71,11 @@ public class ConnectionPool {
         catch (SQLException e) {
             throw new ConnectionPoolException("Error! Creating connection has been failed!" , e);
         }
-        return new ProxyConnection(connection);
+        return new ConnectionWrapper(connection);
     }
 
-    public ProxyConnection takeConnection() throws ConnectionPoolException {
-        ProxyConnection connection;
+    public ConnectionWrapper takeConnection() throws ConnectionPoolException {
+        ConnectionWrapper connection;
         try {
             connection = connections.take();
         }
@@ -85,9 +85,9 @@ public class ConnectionPool {
         return connection;
     }
 
-    public void putConnection(ProxyConnection proxyConnection) {
+    public void putConnection(ConnectionWrapper connection) {
         try {
-            connections.put(proxyConnection);
+            connections.put(connection);
         } catch (InterruptedException e) {
             LOG.error("Interrupted Exception!");
         }

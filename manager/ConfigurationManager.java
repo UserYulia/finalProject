@@ -5,7 +5,7 @@ import java.util.ResourceBundle;
 public class ConfigurationManager {
     private static ConfigurationManager instance;
     private ResourceBundle resourceBundle;
-    private static final String BUNDLE_NAME = "database";
+    private static final String BUNDLE_NAME = "config";
     public static final String DATABASE_URL ="db.url";
     public static final String USER ="db.user";
     public static final String PASSWORD ="db.password";
@@ -27,7 +27,6 @@ public class ConfigurationManager {
         }
         return instance;
     }
-
     public String getProperty(String key) {
         return (String)resourceBundle.getObject(key);
     }

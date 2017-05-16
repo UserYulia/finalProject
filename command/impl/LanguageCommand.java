@@ -16,7 +16,7 @@ public class LanguageCommand implements Command {
         LOG.info("Language command");
         String page;
         HttpSession session = request.getSession(true);
-        String lang = (String) request.getParameter(PARAM_LANG);
+        String lang = request.getParameter(PARAM_LANG);
         LOG.info("Add to session language parameter.");
         session.setAttribute(PARAM_LANG, lang);
         page = ConfigurationManager.getInstance().getProperty(ConfigurationManager.MAIN_PAGE_PATH);

@@ -6,7 +6,7 @@ import by.galkina.game.entity.User;
 import by.galkina.game.exception.ConnectionPoolException;
 import by.galkina.game.exception.DAOException;
 import by.galkina.game.jdbc.ConnectionPool;
-import by.galkina.game.jdbc.ProxyConnection;
+import by.galkina.game.jdbc.ConnectionWrapper;
 
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
@@ -26,8 +26,8 @@ public class GameDao implements IGameDao {
     public List<Game> findByUser(User user) throws DAOException {
         List<Game> games = new ArrayList<>();
         ResultSet resultSet;
-        try (ProxyConnection ProxyConnection = ConnectionPool.getInstance().takeConnection();
-             PreparedStatement statement = ProxyConnection.prepareStatement(FIND_BY_USER)) {
+        try (ConnectionWrapper connectionWrapper = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement statement = connectionWrapper.prepareStatement(FIND_BY_USER)) {
             statement.setLong(1, user.getUserId());
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -46,8 +46,8 @@ public class GameDao implements IGameDao {
     }
 
     public boolean add(Game entity) throws DAOException {
-        try (ProxyConnection proxyConnection = ConnectionPool.getInstance().takeConnection();
-             PreparedStatement statement = proxyConnection.prepareStatement(ADD_GAME)
+        try (ConnectionWrapper connectionWrapper = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement statement = connectionWrapper.prepareStatement(ADD_GAME)
         ) {
             statement.setBoolean(1, entity.isWin());
             statement.setBigDecimal(2, entity.getBet());

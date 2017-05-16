@@ -1,11 +1,13 @@
 package by.galkina.game.command.impl;
 
-
 import by.galkina.game.command.Command;
 import by.galkina.game.entity.Role;
 import by.galkina.game.entity.User;
 import by.galkina.game.exception.LogicException;
 import by.galkina.game.exception.TechnicalException;
+import by.galkina.game.logic.FindAllGamesLogic;
+import by.galkina.game.logic.FindAllMessagesLogic;
+import by.galkina.game.logic.FindAllUsersLogic;
 import by.galkina.game.logic.LoginLogic;
 import by.galkina.game.manager.ConfigurationManager;
 import by.galkina.game.manager.MessageManager;
@@ -18,7 +20,9 @@ import javax.servlet.http.HttpSession;
 
 public class LoginCommand implements Command {
     private static final Logger LOG = LogManager.getLogger(LoginCommand.class);
-
+    private static final String PARAM_USERS = "users";
+    private static final String PARAM_MESSAGES = "messages";
+    private static final String PARAM_GAMES = "games";
     private static final String PARAM_USER = "user";
     private static final String PARAM_NAME_EMAIL = "email";
     private static final String PARAM_NAME_PASSWORD = "password";
@@ -27,8 +31,8 @@ public class LoginCommand implements Command {
 
     public String execute(HttpServletRequest request) {
         LOG.info("login command");
-        String page = null;
-        User user = null;
+        String page;
+        User user;
         HttpSession session = request.getSession(true);
         String lang = (String) session.getAttribute(PARAM_LANG);
         String email = request.getParameter(PARAM_NAME_EMAIL).trim();
@@ -39,9 +43,12 @@ public class LoginCommand implements Command {
                 LOG.info("Add to session user.");
                 session.setAttribute(PARAM_USER, user);
                 if(user.getRole()== Role.ADMIN){
+                    session.setAttribute(PARAM_USERS, FindAllUsersLogic.find());
+                    session.setAttribute(PARAM_MESSAGES, FindAllMessagesLogic.find());
                     page = ConfigurationManager.getInstance().getProperty(ConfigurationManager.ADMIN_OFFICE_PAGE_PATH);
                 }
                 else {
+                    session.setAttribute(PARAM_GAMES, FindAllGamesLogic.find(user));
                     page = ConfigurationManager.getInstance().getProperty(ConfigurationManager.USER_OFFICE_PAGE_PATH);
                 }
             } else {

@@ -1,8 +1,6 @@
 package by.galkina.game.entity;
 
-/**
- * Created by Yulia on 12.03.2017.
- */
+
 public class News {
     private long newsId;
     private String title;

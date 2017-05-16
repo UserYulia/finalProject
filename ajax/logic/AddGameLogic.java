@@ -16,8 +16,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class AddGameLogic {
-    public static void add(User user, String data, String lang) throws LogicException, TechnicalException {
-        JSONObject json = null;
+    public static void add(User user, String data) throws LogicException, TechnicalException {
+        JSONObject json;
         try {
             json = JSONUtil.stringToJson(data);
             boolean win = Boolean.parseBoolean(((String) json.get("win")).trim());

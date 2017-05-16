@@ -5,7 +5,7 @@ import by.galkina.game.entity.News;
 import by.galkina.game.exception.ConnectionPoolException;
 import by.galkina.game.exception.DAOException;
 import by.galkina.game.jdbc.ConnectionPool;
-import by.galkina.game.jdbc.ProxyConnection;
+import by.galkina.game.jdbc.ConnectionWrapper;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -27,8 +27,8 @@ public class NewsDao implements INewsDao {
     public List<News> findAll(String lang) throws DAOException {
         List<News> news=new ArrayList<>();
         ResultSet rs;
-        try (ProxyConnection proxyConnection = ConnectionPool.getInstance().takeConnection();
-             PreparedStatement statement = proxyConnection.prepareStatement(SELECT_ALL_NEWS)
+        try (ConnectionWrapper connectionWrapper = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement statement = connectionWrapper.prepareStatement(SELECT_ALL_NEWS)
         ) {
             rs = statement.executeQuery();
             while (rs.next()){
@@ -51,8 +51,8 @@ public class NewsDao implements INewsDao {
     }
 
     public boolean add(String titleRu, String textRu, String titleEn, String textEn) throws DAOException {
-        try (ProxyConnection proxyConnection = ConnectionPool.getInstance().takeConnection();
-             PreparedStatement statement = proxyConnection.prepareStatement(INSERT_NEWS)
+        try (ConnectionWrapper connectionWrapper = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement statement = connectionWrapper.prepareStatement(INSERT_NEWS)
         ) {
             statement.setString(1, titleRu);
             statement.setString(2, titleEn);

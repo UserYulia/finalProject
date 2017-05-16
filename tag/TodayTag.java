@@ -8,34 +8,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-/**
- * Class TodayTag ...
- *
- * @author Виталий
- * Created on 19.06.2016
- */
 @SuppressWarnings("serial")
 public class TodayTag extends TagSupport {
-    /** Field dateFormat  */
     private String dateFormat;
 
-    /**
-     * Method setFormat sets the format of this TodayTag object.
-     *
-     *
-     *
-     * @param dateFormat the format of this TodayTag object.
-     *
-     */
     public void setFormat(String dateFormat) {
         this.dateFormat = dateFormat;
     }
 
-    /**
-     * Method doStartTag ...
-     * @return int
-     * @throws javax.servlet.jsp.JspException when
-     */
     @Override
     public int doStartTag() throws JspException {
         try {
@@ -50,11 +30,6 @@ public class TodayTag extends TagSupport {
         return SKIP_BODY;
     }
 
-    /**
-     * Method doEndTag ...
-     * @return int
-     * @throws JspException when
-     */
     @Override
     public int doEndTag() throws JspException {
         return EVAL_PAGE;

@@ -11,6 +11,7 @@ public class CommandDefiner {
     private HashMap<String, Command> commands = new HashMap<>();
 
     private CommandDefiner() {
+        commands.put("changePassword", new ChangePasswordCommand());
         commands.put("login", new LoginCommand());
         commands.put("language", new LanguageCommand());
         commands.put("logout", new LogoutCommand());
@@ -20,6 +21,8 @@ public class CommandDefiner {
         commands.put("showGames", new ShowGamesCommand());
         commands.put("sendMessage", new SendMessageCommand());
         commands.put("forward" , new ForwardCommand());
+        commands.put("reduceMoney", new ReduceMoneyCommand());
+        commands.put("addMoney", new AddMoneyCommand());
     }
 
     public Command getCommand(HttpServletRequest request) {

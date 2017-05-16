@@ -14,16 +14,15 @@ import java.io.IOException;
 
 public class AddGameCommand implements Command {
     private static final Logger LOG = Logger.getLogger(SetBanCommand.class);
-    private static final String LANG = "lang";
+    private static final String USER = "user";
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response, String requestData) throws IOException {
         LOG.info("Add game command");
         HttpSession session = request.getSession(true);
-        String lang = (String) session.getAttribute(LANG);
-        User user = (User)session.getAttribute("user");
+        User user = (User)session.getAttribute(USER);
         try {
-            AddGameLogic.add(user, requestData, lang);
+            AddGameLogic.add(user, requestData);
             response.setStatus(HttpServletResponse.SC_OK);
         }catch (LogicException | TechnicalException e) {
             LOG.error("LogicException", e);

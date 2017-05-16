@@ -1,8 +1,5 @@
 package by.galkina.game.exception;
 
-/**
- * Created by Yulia on 27.02.2017.
- */
 public class ConnectionPoolException extends Exception {
     public ConnectionPoolException() {
     }

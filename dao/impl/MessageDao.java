@@ -6,7 +6,7 @@ import by.galkina.game.entity.User;
 import by.galkina.game.exception.ConnectionPoolException;
 import by.galkina.game.exception.DAOException;
 import by.galkina.game.jdbc.ConnectionPool;
-import by.galkina.game.jdbc.ProxyConnection;
+import by.galkina.game.jdbc.ConnectionWrapper;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,19 +17,19 @@ import java.util.List;
 
 
 public class MessageDao implements IMessageDao {
-    private static final String FIND_ALL="SELECT * FROM message";
+    private static final String FIND_ALL="SELECT * FROM complaint";
     private static final String INSERT_MESSAGE="INSERT INTO complaint (description, time, userId_from ) VALUES(?,?,?)";
 
     public List<Message> findAll() throws DAOException {
         List<Message> messages = new ArrayList<>();
         ResultSet resultSet;
-        try (ProxyConnection ProxyConnection = ConnectionPool.getInstance().takeConnection();
-             PreparedStatement statement = ProxyConnection.prepareStatement(FIND_ALL)) {
+        try (ConnectionWrapper connectionWrapper = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement statement = connectionWrapper.prepareStatement(FIND_ALL)) {
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Date date = resultSet.getDate("time");
                 Long userId = resultSet.getLong("userId_from");
-                String text = resultSet.getString("text");
+                String text = resultSet.getString("description");
                 User user = new UserDao().findById(userId);
                 messages.add(new Message(text,user.getEmail(),date));
             }
@@ -41,8 +41,8 @@ public class MessageDao implements IMessageDao {
     }
 
     public boolean add(Message entity) throws DAOException {
-        try (ProxyConnection proxyConnection = ConnectionPool.getInstance().takeConnection();
-             PreparedStatement statement = proxyConnection.prepareStatement(INSERT_MESSAGE)
+        try (ConnectionWrapper connectionWrapper = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement statement = connectionWrapper.prepareStatement(INSERT_MESSAGE)
         ) {
             User user = new UserDao().findByEmail(entity.getFrom());
             statement.setString(1, entity.getText());
